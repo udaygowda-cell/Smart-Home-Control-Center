@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Smart Home Control Center</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏠 Smart Home Control Center</h1>
+            <p>Voice-controlled home automation system</p>
+        </div>
+
+        <div class="content">
+            <!-- Connection Section -->
+            <div class="connection-section">
+                <h3>
+                    <span style="font-size: 1.2em;">🔗</span>
+                    ESP32 Connection
+                </h3>
+                <p>Enter your ESP32 IP address (check Serial Monitor for IP after upload)</p>
+                <div class="connection-input">
+                    <input type="text" id="esp32Ip" placeholder="e.g., 192.168.1.100" inputmode="numeric" pattern="[0-9.]*">
+                    <button onclick="connectToESP32()">Connect</button>
+                </div>
+                <div id="connectionStatus" class="connection-status status-disconnected">
+                    <span style="font-size: 1.1em;">🔴</span>
+                    <span>Disconnected - Enter ESP32 IP and click Connect</span>
+                </div>
+                <div class="control-buttons">
+                    <button class="control-btn btn-test" onclick="testConnection()">Test Connection</button>
+                    <button class="control-btn btn-all" onclick="getStatus()">Refresh Status</button>
+                </div>
+            </div>
+
+            <!-- Voice Control Section -->
+            <div class="voice-section">
+                <button class="voice-btn" onclick="startVoiceRecognition()">
+                    <span style="font-size: 1.2em; margin-right: 8px;">🎤</span>
+                    Start Voice Command
+                </button>
+                <div id="voiceStatus" class="status-section status-error">
+                    <span style="font-size: 1.1em; margin-right: 8px;">ℹ️</span>
+                    <span>Connect to ESP32 first, then click the button and speak a command...</span>
+                </div>
+            </div>
+
+            <!-- Device Status Grid -->
+            <h3>
+                <span style="font-size: 1.2em;">🏠</span>
+                Device Status
+            </h3>
+            <div class="devices-grid">
+                <div class="device-card" id="kitchenCard" onclick="toggleDevice('kitchen_light')">
+                    <div class="device-icon">💡</div>
+                    <div class="device-name">Kitchen Light</div>
+                    <div class="device-status status-off" id="kitchenStatus">OFF</div>
+                </div>
+                <div class="device-card" id="hallLightCard" onclick="toggleDevice('hall_light')">
+                    <div class="device-icon">💡</div>
+                    <div class="device-name">Hall Light</div>
+                    <div class="device-status status-off" id="hallLightStatus">OFF</div>
+                </div>
+                <div class="device-card" id="hallFanCard" onclick="toggleDevice('hall_fan')">
+                    <div class="device-icon">🌀</div>
+                    <div class="device-name">Hall Fan</div>
+                    <div class="device-status status-off" id="hallFanStatus">OFF</div>
+                </div>
+                <div class="device-card" id="readingCard" onclick="toggleDevice('reading_light')">
+                    <div class="device-icon">📖</div>
+                    <div class="device-name">Reading Light</div>
+                    <div class="device-status status-off" id="readingStatus">OFF</div>
+                </div>
+            </div>
+
+            <!-- Control Buttons -->
+            <div class="control-buttons">
+                <button class="control-btn btn-on" onclick="controlAll('on')">All ON</button>
+                <button class="control-btn btn-off" onclick="controlAll('off')">All OFF</button>
+            </div>
+
+            <!-- Custom Command -->
+            <div class="custom-command">
+                <h3>
+                    <span style="font-size: 1.2em;">⌨️</span>
+                    Custom Command
+                </h3>
+                <div class="custom-input">
+                    <input type="text" id="customCommand" placeholder="Type your voice command here...">
+                    <button onclick="sendCustomCommand()">Send Command</button>
+                </div>
+            </div>
+
+            <!-- Debug Info -->
+            <div class="debug-info">
+                <strong>Debug Information:</strong>
+                <div id="debugLog">Waiting for connection...</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
